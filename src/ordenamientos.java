@@ -1,13 +1,13 @@
 
-
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Random;
 
 public class ordenamientos {
-
 	public static void insertionSort(int [] a ) {
 		int index, temp;
 		for (int i = 1; i < a.length; i++) {
@@ -77,8 +77,7 @@ public class ordenamientos {
 			}	
 		}
 		return resp;
-	}
-	
+	}	
 	//	https://www.youtube.com/watch?v=0tG8G-aRmSU
 	public static void quickSort(int a[], int left, int right) {
 		int pivot = a[left];
@@ -105,18 +104,32 @@ public class ordenamientos {
 		if(j+1 < right)
 			quickSort(a, j+1, right);
 	}
-
-
-
+	public static int binarySearch(int [] array, int value, int lowerBound , int upperBound) {
+		int index = -1;
+		int middle = (lowerBound + upperBound) /2;
+		if(lowerBound > upperBound )
+			index = -1;
+		else
+			
+		if(array[middle] == value)
+			index = middle;
+		else
+			if(value < array[middle])
+				index = binarySearch(array, value, lowerBound, middle-1);
+			else
+				index = binarySearch(array, value, middle+1, upperBound);
+			
+		
+		return index;
+	}
 	public static void main(String[] args) throws NumberFormatException, IOException {
-
 		Random al = new Random();
-		BufferedReader tc = new BufferedReader(new InputStreamReader(System.in));
-		// Create array
-		System.out.println("Ingrese tamaño");
-		int n = Integer.parseInt(tc.readLine());
-		System.out.println("Numero de veces");
-		int j = Integer.parseInt(tc.readLine());
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		System.out.println("Defina la cantidad de valores en el arreglo");
+		int n = Integer.parseInt(br.readLine());
+		System.out.println("Ingrese la cantidad de veces a probar el metodo");
+		int j = Integer.parseInt(br.readLine());
 
 		int[] a = new int[n];
 		FileWriter fw = new FileWriter("SAVE.TXT");
@@ -126,22 +139,16 @@ public class ordenamientos {
 				a[i] = 1 + al.nextInt(100);
 			}
 
-			long startTime = System.currentTimeMillis();
-			//Example function
-			bubbleSort(a);
-			long endTime = System.currentTimeMillis();
-
-			System.out.println("That took " + (endTime - startTime) + " milliseconds");
-
-			String str = "That took " + (endTime - startTime) + " milliseconds";
+			long startTime = System.nanoTime();
+			binarySearch(a, 20, 0, a.length-1);
+			long endTime = System.nanoTime();
+			System.out.println("Se demoro en organizar  " + (endTime - startTime)  + " NanoSegundos");
+			String str = "Se demoro en organizar  " + (endTime - startTime)  + " NanoSegundos";
 			fw.write("\n"+str);
 			j--;
 		}
 		fw.close();
-
 	}
-
-
 }
 
 
