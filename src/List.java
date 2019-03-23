@@ -18,7 +18,7 @@ import java.io.*;
  * @author MSc. Carlos Andres Sierra, PhD. student
  */
 public class List {
-	
+
 	public Node head = null;
 	public int size = 0;
 
@@ -77,7 +77,7 @@ public class List {
 			head=newNode;
 			size++;
 		}else {
-			
+
 			while(temp.next==null) {
 				temp=temp.next;
 			}
@@ -96,9 +96,9 @@ public class List {
 	{
 		Node temp=head;
 		while(index>0&&temp.next!=null) {
-		temp=temp.next;
-		index--;
-	}
+			temp=temp.next;
+			index--;
+		}
 		if(index==0) {
 			Node temp2=temp.next;
 			temp.setNext(newNode);
@@ -108,7 +108,16 @@ public class List {
 		}else {
 			return;
 		}
-		
+		/**
+		 * Node temp = head;
+		 * Node previous = temp;
+		 * for (i=0; i < index ;i++){
+		 * previus = temp;
+		 * temp = temp.getnext(); 
+		 * }
+		 * newNode.setnext(previous.getnext());
+		 * previous.setnext(newNode);
+		 */
 	}
 
 
@@ -124,24 +133,31 @@ public class List {
 	}
 
 
-	/**
-	 * 
-	 */
 	public void deleteAtEnd()
 	{
 		Node temp=head;
 		if(temp.next==null) {
-		temp=null;
-				size--;
+			temp=null;
+			size--;
 		}
 		while(temp.next.next!=null) {
 			temp=temp.next;
 		}
-			temp.setNext(null);
-			size--;
+		temp.setNext(null);
+		size--;
 	}
-
-
+	/**
+	 * Node temp = head;
+	 * Node previous = temp;
+	 * while(temp.getnext() != null){
+	 * 
+	 * previous = temp;
+	 * temp = temp.getnext(); 
+	 * }
+	 * temp = null;
+	 * previous.setnext(null);
+	 * system.gc();
+	 */
 
 	/**
 	 * 
@@ -268,9 +284,26 @@ public class List {
 	 * @param node
 	 * @return
 	 */
-	public Node binarySearch(Node node)
-	{
-		return null;
+	public int binarySearch(Node node)
+	{	
+		int lower_bound = 0, upper_bound = this.length()-1;
+		int middle = 0, index = -1;
+		while(upper_bound > lower_bound) {
+			middle = (lower_bound + upper_bound)/2;
+			if(get(middle).isEqual(node)) {
+				index = middle;
+				break;
+			}
+			else {
+				if(get(middle).isLessThan(node))
+					lower_bound = middle;
+				else
+					upper_bound = middle-1;
+			}
+		}
+
+		quickSort(this);
+		return index;
 	}
 
 
@@ -363,6 +396,20 @@ public class List {
 	{
 		List subList = new List();
 
+		if(begin < this.length() && end < this.length() && begin <= end )
+		{
+			Node temp = head;
+
+			for(int i = 0; i < begin; i++)
+				temp = temp.getNext();
+
+			for(int i = 0 ; i < (end - begin ); i++)
+			{
+				subList.insertAtEnd(temp.clone());
+				temp = temp.getNext();
+			}
+		}
+
 		return subList;
 	}
 
@@ -373,7 +420,14 @@ public class List {
 	 */
 	public int length()
 	{
-		return size;
+
+		int cont = 0;
+		Node temp = head;
+		while (temp.getNext()!=null) {
+			cont += 1;
+			temp.getNext();
+		}
+		return cont;
 	}
 
 
@@ -383,7 +437,13 @@ public class List {
 	 */
 	public List cloneList()
 	{
-		return null;
+		List newList = new List();
+		Node temp = head;
+		while(temp != null) {
+			newList.insertAtEnd(temp.clone());
+			temp = temp.getNext();
+		}
+		return newList;
 	}
 
 
@@ -421,7 +481,16 @@ public class List {
 	 */
 	public Node get(int index)
 	{
-		return null;
+		Node result = null;
+		if(index < this.length()) {
+			Node temp = head;
+			for (int i = 0; i < index; i++) 
+				temp = temp.getNext();
+			result = temp.clone();
+
+		}
+
+		return result;
 	}
 
 
