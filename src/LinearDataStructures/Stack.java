@@ -1,3 +1,4 @@
+package LinearDataStructures;
 
 import java.io.*;
 
@@ -52,10 +53,10 @@ public class Stack {
 	public Node pop()
 	{
 		Node temp = top;
-		top = top.next; 
-		temp = null;
-		System.gc();
-		return top;
+		top = temp.getNext();
+		temp.setNext(null);
+		
+		return temp;
 	}
 	
 	

@@ -1,4 +1,4 @@
-
+package LinearDataStructures;
 import java.io.*;
 
 /*
@@ -20,7 +20,6 @@ import java.io.*;
 public class List {
 
 	public Node head = null;
-	public int size = 0;
 
 	public List() {}
 
@@ -70,22 +69,18 @@ public class List {
 	 * 
 	 * @param newNode
 	 */
-	public void insertAtEnd(Node newNode)
-	{
-		Node temp=head;
-		if(head==null) {
-			head=newNode;
-			size++;
-		}else {
-
-			while(temp.next==null) {
-				temp=temp.next;
-			}
-			temp.setNext(newNode);
-			size++;
+	public void insertAtEnd(Node newNode){
+		Node rec = head;
+		if(!this.isEmpty()) {
+			head=newNode; 
 		}
+			while(rec.getNext()!=null) {
+				rec=rec.getNext();
+			}
+			rec.setNext(newNode); 
+	
+		 
 	}
-
 
 	/**
 	 * 
@@ -94,32 +89,17 @@ public class List {
 	 */
 	public void insertAtIndex(Node newNode, int index)
 	{
-		Node temp=head;
-		while(index>0&&temp.next!=null) {
-			temp=temp.next;
-			index--;
+		Node rec=head; 
+		Node previous=rec;
+		
+		for(int i=0;i<index;i++) {
+			previous=rec;
+			rec=rec.getNext();
 		}
-		if(index==0) {
-			Node temp2=temp.next;
-			temp.setNext(newNode);
-			temp=temp.next;
-			temp.setNext(temp2);
-			size++;
-		}else {
-			return;
-		}
-		/**
-		 * Node temp = head;
-		 * Node previous = temp;
-		 * for (i=0; i < index ;i++){
-		 * previus = temp;
-		 * temp = temp.getnext(); 
-		 * }
-		 * newNode.setnext(previous.getnext());
-		 * previous.setnext(newNode);
-		 */
-	}
+		newNode.setNext(previous.getNext());
+		previous.setNext(newNode);
 
+	}
 
 	/**
 	 * 
@@ -132,32 +112,21 @@ public class List {
 		System.gc();
 	}
 
-
+	/**
+	 * 
+	 */
 	public void deleteAtEnd()
 	{
-		Node temp=head;
-		if(temp.next==null) {
-			temp=null;
-			size--;
+		Node rec = head;
+		Node previous=rec;
+		while(rec.getNext()!=null) {
+			previous=rec;
+			rec=rec.getNext();  
 		}
-		while(temp.next.next!=null) {
-			temp=temp.next;
-		}
-		temp.setNext(null);
-		size--;
+		rec=null;
+		previous.setNext(null);
+		System.gc();
 	}
-	/**
-	 * Node temp = head;
-	 * Node previous = temp;
-	 * while(temp.getnext() != null){
-	 * 
-	 * previous = temp;
-	 * temp = temp.getnext(); 
-	 * }
-	 * temp = null;
-	 * previous.setnext(null);
-	 * system.gc();
-	 */
 
 	/**
 	 * 
@@ -255,6 +224,7 @@ public class List {
 		return result;
 	}
 
+
 	/**
 	 * 
 	 * @param node
@@ -285,24 +255,26 @@ public class List {
 	 * @return
 	 */
 	public int binarySearch(Node node)
-	{	
-		int lower_bound = 0, upper_bound = this.length()-1;
-		int middle = 0, index = -1;
-		while(upper_bound > lower_bound) {
-			middle = (lower_bound + upper_bound)/2;
-			if(get(middle).isEqual(node)) {
-				index = middle;
+	{
+		int lower_boud=0, upper_bound=this.length()-1;
+		int middle=0, index=-1;
+		
+		while(upper_bound>lower_boud) 
+		{
+			middle=(lower_boud + upper_bound /2);
+			
+			if(get(middle).isEqual(node)) 
+			{
+				index=middle;
 				break;
 			}
-			else {
+			else
 				if(get(middle).isLessThan(node))
-					lower_bound = middle;
+					lower_boud=middle + 1;
 				else
-					upper_bound = middle-1;
-			}
+					upper_bound=middle - 1;
+			
 		}
-
-		quickSort(this);
 		return index;
 	}
 
@@ -396,14 +368,15 @@ public class List {
 	{
 		List subList = new List();
 
-		if(begin < this.length() && end < this.length() && begin <= end )
+		if(begin < this.length() && end<this.length( )&& begin < end)
 		{
 			Node temp = head;
 
 			for(int i = 0; i < begin; i++)
 				temp = temp.getNext();
 
-			for(int i = 0 ; i < (end - begin ); i++)
+			//while(!temp.equals(get(end)))
+			for(int i =0 ;i < (end-begin); i++)
 			{
 				subList.insertAtEnd(temp.clone());
 				temp = temp.getNext();
@@ -420,12 +393,11 @@ public class List {
 	 */
 	public int length()
 	{
-
-		int cont = 0;
-		Node temp = head;
-		while (temp.getNext()!=null) {
-			cont += 1;
-			temp.getNext();
+		int cont=0;
+		Node rec = head;
+		while(rec.next!=null) {
+			rec=rec.getNext();
+			cont++;
 		}
 		return cont;
 	}
@@ -437,11 +409,13 @@ public class List {
 	 */
 	public List cloneList()
 	{
-		List newList = new List();
-		Node temp = head;
-		while(temp != null) {
-			newList.insertAtEnd(temp.clone());
-			temp = temp.getNext();
+		Node rec=head;
+		List newList=new List();
+		
+		while(rec.next!=null) 
+		{
+			newList.insertAtEnd(rec.clone());
+			rec=rec.getNext();
 		}
 		return newList;
 	}
@@ -481,17 +455,19 @@ public class List {
 	 */
 	public Node get(int index)
 	{
-		Node result = null;
-		if(index < this.length()) {
-			Node temp = head;
-			for (int i = 0; i < index; i++) 
-				temp = temp.getNext();
-			result = temp.clone();
-
+		Node result=null; 
+		
+		if(index<this.length()) {
+			Node rec=head;
+			for (int i = 0; i <index; i++) 
+				rec=rec.getNext();
+			
+			result=rec.clone();
 		}
-
 		return result;
+			
 	}
+	
 
 
 	/**

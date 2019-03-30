@@ -1,4 +1,21 @@
+package LinearDataStructures;
 
+/*
+# Queues based on Lists.
+#
+# Created by Msc. Carlos Andres Sierra on April 2018.
+# Copyright (c) 2018  Msc. Carlos Andres Sierra. Research Group on Artificial Life - ALIFE. All rights reserved.
+#
+# This file is part of DataStructuresTemplates.
+#
+# DataStructuresTemplates is free software: you can redistribute it and/or modify it under the terms of the
+# GNU General Public License as published by the Free Software Foundation, version 3.
+*/
+
+/**
+ * This class represents the behavior of Queues
+ * @author MSc. Carlos Andres Sierra, PhD. student
+ */
 public class Queue {
 	
 	Node head = null; //
@@ -21,19 +38,12 @@ public class Queue {
 	 */
 	public void enqueue(Node newNode)
 	{
-		Node temp=head;
-		if(head==null) {
-			head=newNode;
-			}
-		else {
+		Node rec = head;
+		if(!this.isEmpty()) 
+			while(rec.getNext()!=null) 
+				rec=rec.getNext();
 			
-			while(temp.next==null) {
-				temp=temp.next;
-			}
-			temp.setNext(newNode);
-			
-		};
-		
+			rec.setNext(newNode);
 	}
 	
 	
@@ -44,9 +54,9 @@ public class Queue {
 	public Node dequeue()
 	{
 		Node temp = head;
-		head = head.next;
-		temp = null;
-		System.gc();
-		return head;	
+		head = temp.getNext();
+		temp.setNext(null);
+		
+		return temp;
 	}
 }
