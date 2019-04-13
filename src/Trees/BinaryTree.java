@@ -1,22 +1,6 @@
 package Trees;
 
 
-/*
-# Binary Tree Data Structure.
-#
-# Created by Msc. Carlos Andres Sierra on April 2018.
-# Copyright (c) 2018  Msc. Carlos Andres Sierra. Research Group on Artificial Life - ALIFE. All rights reserved.
-#
-# This file is part of DataStructuresTemplates.
-#
-# DataStructuresTemplates is free software: you can redistribute it and/or modify it under the terms of the
-# GNU General Public License as published by the Free Software Foundation, version 3.
-*/
-
-/**
- * This class represents the behavior of Binary Trees
- * @author MSc. Carlos Andres Sierra, PhD. student
- */
 public class BinaryTree {
 	
 	BinaryTreeNode root = null; //
